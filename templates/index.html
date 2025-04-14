@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./static/css/output.css">
+    <title>AI Content Generator</title>
+</head>
+<body>
+    <nav class="bg-black">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center py-4">
+                <div class="flex-shrink-0">
+                    <a href="#" class="text-white font-bold">AI Blog Generator</a>
+                </div>
+                <div class="hidden md:flex">
+                    <a href="#" class="text-white ml-4">Home</a>
+                    <a href="#" class="text-white ml-4">About</a>
+                    <a href="#" class="text-white ml-4">Services</a>
+                    <a href="#" class="text-white ml-4">Contact</a>
+                </div>
+                <div class="md:hidden">
+                    <button type="button" class="text-white focus:outline-none">
+                        <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <div class="hidden flex flex-col items-center">
+                <a href="#" class="text-white ml-4">Home</a>
+                <a href="#" class="text-white ml-4">About</a>
+                <a href="#" class="text-white ml-4">Services</a>
+                <a href="#" class="text-white ml-4">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mx-auto my-4 px-4 md:px-0">
+        <h1 style="font-size: 24px; font-weight: bold; color: #333;">AI Blog Generator</h1>
+        <textarea class="border my-1 p-2 w-full" placeholder="Enter the title of your blog"></textarea>
+        <button id="submitBtn" class="bg-black text-white px-4 py-2 my-1 rounded">Submit</button>
+        <div id="content" class="bg-gray-200 p-2 my-4">Your content will show up here</div>
+    </div>
+
+    <script>
+        const button = document.querySelector('.md\\:hidden button');
+        const navLinks = document.querySelector('.hidden.flex');
+
+        button.addEventListener('click', () => {
+            navLinks.classList.toggle('hidden');
+        });
+
+        // Function to take the prompt and fetch the output from the /generate endpoint
+        const populate = async () => {
+            let prompt = document.querySelector('textarea').value;
+            let response = await fetch('/generate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ prompt: prompt })
+            });
+          content.innerHTML = await response.text();
+        }
+       const submitBtn = document.querySelector('#submitBtn');
+            submitBtn.addEventListener('click', () => {
+                populate();
+            });
+    </script>
+
+</body>
+</html>
